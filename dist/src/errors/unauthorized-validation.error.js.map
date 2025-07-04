@@ -1,0 +1,1 @@
+{"version":3,"file":"unauthorized-validation.error.js","sourceRoot":"","sources":["../../../src/errors/unauthorized-validation.error.ts"],"names":[],"mappings":";;;AAAA,MAAa,iBAAkB,SAAQ,KAAK;IACxC,YAAY,UAAkB,cAAc;QACxC,KAAK,CAAC,OAAO,CAAC,CAAA;QACd,IAAI,CAAC,IAAI,GAAG,mBAAmB,CAAA;QAC/B,MAAM,CAAC,cAAc,CAAC,IAAI,EAAE,iBAAiB,CAAC,SAAS,CAAC,CAAA;IAC5D,CAAC;CACJ;AAND,8CAMC"}

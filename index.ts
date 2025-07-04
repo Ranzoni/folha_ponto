@@ -3,7 +3,9 @@ import usersRoutes from './src/routes/users.routes'
 
 const app = express()
 
-app.get('/api', usersRoutes)
+app.use(express.json())
+
+app.use('/api', usersRoutes)
 
 app.listen(3000, () => {
     console.log('Running!')
