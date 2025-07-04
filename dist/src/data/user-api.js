@@ -48,7 +48,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authenticateUser = authenticateUser;
 exports.createUser = createUser;
 const axios_1 = __importDefault(require("axios"));
-const config_1 = require("../config");
+const config_1 = require("../utils/config");
 const message_validation_error_1 = __importStar(require("../errors/message-validation.error"));
 const api = axios_1.default.create({
     baseURL: config_1.config.userApiBaseUrl,
@@ -79,15 +79,22 @@ function authenticateUser(authData) {
 function createUser(token, newUser) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield api.post('/user', newUser, {
+            const bodyData = {
+                name: newUser.name,
+                username: newUser.email.substring(0, newUser.email.indexOf('@')),
+                email: newUser.email,
+                password: newUser.password
+            };
+            const response = yield api.post('/user', bodyData, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'Chave-API': config_1.config.userApiKey
                 }
             });
             const user = {
-                id: response.data.user.id,
-                name: response.data.user.name,
-                email: response.data.user.email
+                id: response.data.id,
+                name: response.data.name,
+                email: response.data.email
             };
             return user;
         }
@@ -102,11 +109,12 @@ function handleError(error, responseError, notMappedError) {
             throw new message_validation_error_1.MessageValidationError((0, message_validation_error_1.default)(error.response.data));
         }
         if (error.response.status === 401) {
-            const message = error.response.data[0].message;
-            if (!message) {
+            try {
+                throw new message_validation_error_1.MessageValidationError((0, message_validation_error_1.default)(error.response.data), 401);
+            }
+            catch (error) {
                 throw new message_validation_error_1.MessageValidationError(['Acesso negado'], 401);
             }
-            throw new message_validation_error_1.MessageValidationError((0, message_validation_error_1.default)(error.response.data), 401);
         }
         throw new message_validation_error_1.MessageValidationError([responseError], 400);
     }

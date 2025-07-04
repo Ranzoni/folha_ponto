@@ -28,5 +28,8 @@ export function getToken(req: Request): string {
 
     const token = authHeader.split(' ')[1]
     return token || ''
+}
 
+export function getUriApi(req: Request): string {
+    return `${req.protocol}://${req.get('host')}${req.originalUrl}`
 }

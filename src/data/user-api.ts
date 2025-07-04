@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { config } from '../config'
+import { config } from '../utils/config'
 import { AuthenticationRequest } from '../services/users/models/authentication.request'
 import { AuthenticationResponse } from '../services/users/models/authentication.response'
 import getValidationsFromError, { MessageValidationError } from '../errors/message-validation.error'
@@ -35,16 +35,24 @@ export async function authenticateUser(authData: AuthenticationRequest): Promise
 
 export async function createUser(token: string, newUser: CreateUserRequest): Promise<UserResponse | undefined> {
   try {
-    const response = await api.post('/user', newUser, {
+    const bodyData: any = {
+        name: newUser.name,
+        username: newUser.email.substring(0, newUser.email.indexOf('@')),
+        email: newUser.email,
+        password: newUser.password
+    }
+
+    const response = await api.post('/user', bodyData, {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'Chave-API': config.userApiKey
         }
     })
 
     const user: UserResponse = {
-        id: response.data.user.id,
-        name: response.data.user.name,
-        email: response.data.user.email
+        id: response.data.id,
+        name: response.data.name,
+        email: response.data.email
     }
 
     return user
@@ -60,12 +68,11 @@ function handleError(error: any, responseError: string, notMappedError: string):
         }
 
         if (error.response.status === 401) {
-            const message = error.response.data[0].message
-            if (!message) {
+            try {
+                throw new MessageValidationError(getValidationsFromError(error.response.data), 401)
+            } catch (error) {
                 throw new MessageValidationError(['Acesso negado'], 401)
             }
-
-            throw new MessageValidationError(getValidationsFromError(error.response.data), 401)
         }
 
         throw new MessageValidationError([responseError], 400)

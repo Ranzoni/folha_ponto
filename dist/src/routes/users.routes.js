@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const authenticate_1 = require("../services/users/authenticate");
 const message_validation_error_1 = require("../errors/message-validation.error");
-const security_1 = require("../security");
+const security_1 = require("../utils/security");
 const create_user_1 = __importDefault(require("../services/users/create-user"));
 const router = (0, express_1.Router)();
 router.post('/user/authenticate', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,7 +32,8 @@ router.post('/user/authenticate', (req, res) => __awaiter(void 0, void 0, void 0
 }));
 router.post('/user', security_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield (0, create_user_1.default)((0, security_1.getToken)(req), req.body);
+        const apiUrl = `${(0, security_1.getUriApi)(req)}/active`;
+        const response = yield (0, create_user_1.default)((0, security_1.getToken)(req), req.body, apiUrl);
         res.json(response);
     }
     catch (error) {

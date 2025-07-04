@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express"
 import { AuthenticationRequest } from "../services/users/models/authentication.request"
 import { executeAuthentication } from "../services/users/authenticate"
 import { MessageValidationError } from "../errors/message-validation.error"
-import { getToken, verifyToken } from "../security"
+import { getToken, getUriApi, verifyToken } from "../utils/security"
 import executeCreation from "../services/users/create-user"
 import { CreateUserRequest } from "../services/users/models/create-user.request"
 
@@ -23,7 +23,9 @@ router.post('/user/authenticate', async (req: Request, res: Response) => {
 
 router.post('/user', verifyToken, async (req: Request, res: Response) => {
     try {
-        const response = await executeCreation(getToken(req), req.body as CreateUserRequest)
+        const apiUrl = `${getUriApi(req)}/active`
+
+        const response = await executeCreation(getToken(req), req.body as CreateUserRequest, apiUrl)
         res.json(response)
     } catch (error: any) {
         if (error instanceof MessageValidationError) {

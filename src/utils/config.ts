@@ -6,5 +6,9 @@ export const config = {
   userApiBaseUrl: process.env.USER_API_BASE_URL,
   userApiKey: process.env.USER_API_KEY,
   userApiAdminEmail: process.env.USER_API_ADMIN_EMAIL,
-  userApiAdminPass: process.env.USER_API_ADMIN_PASS
+  userApiAdminPass: process.env.USER_API_ADMIN_PASS,
+  emailService: process.env.EMAIL_SERVICE,
+  emailUser: process.env.EMAIL_USER,
+  emailPass: process.env.EMAIL_PASS,
+  secretKey: process.env.SECRET_KEY,
 }
