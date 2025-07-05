@@ -34,6 +34,7 @@ router.post('/user', security_1.verifyToken, (req, res) => __awaiter(void 0, voi
     try {
         const apiUrl = `${(0, security_1.getUriApi)(req)}/active`;
         const response = yield (0, create_user_1.default)((0, security_1.getToken)(req), req.body, apiUrl);
+        res.status(201);
         res.json(response);
     }
     catch (error) {

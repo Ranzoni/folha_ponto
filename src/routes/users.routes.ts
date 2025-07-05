@@ -26,6 +26,7 @@ router.post('/user', verifyToken, async (req: Request, res: Response) => {
         const apiUrl = `${getUriApi(req)}/active`
 
         const response = await executeCreation(getToken(req), req.body as CreateUserRequest, apiUrl)
+        res.status(201)
         res.json(response)
     } catch (error: any) {
         if (error instanceof MessageValidationError) {

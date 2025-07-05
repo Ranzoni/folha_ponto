@@ -12,36 +12,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.savePosition = savePosition;
-exports.getPositionByName = getPositionByName;
+exports.saveDepartment = saveDepartment;
+exports.getDepartmentByName = getDepartmentByName;
+const department_1 = require("../../services/departments/models/department");
 const pg_pool_1 = __importDefault(require("../database/pg.pool"));
-function savePosition(position) {
+function saveDepartment(department) {
     return __awaiter(this, void 0, void 0, function* () {
         const query = `
-        INSERT INTO positions (name)
+        INSERT INTO departments (name)
         VALUES ($1)
         RETURNING id
     `;
-        const values = [position.name];
+        const values = [department.nameValue];
         try {
             const result = yield pg_pool_1.default.query(query, values);
-            const positionCreated = {
-                id: result.rows[0].id,
-                name: position.name
-            };
-            return positionCreated;
+            return new department_1.Department(department.nameValue, result.rows[0].id);
         }
         catch (error) {
-            throw Error(`Falha ao tentar inserir um cargo no banco de dados: ${error}`);
+            throw Error(`Falha ao tentar inserir um departamento no banco de dados: ${error}`);
         }
     });
 }
-function getPositionByName(name) {
+function getDepartmentByName(name) {
     return __awaiter(this, void 0, void 0, function* () {
         const query = `
         SELECT id,
             name
-        FROM positions
+        FROM departments
         WHERE LOWER(name) LIKE LOWER($1)
         LIMIT 1
     `;
@@ -51,15 +48,11 @@ function getPositionByName(name) {
             if (result.rows.length === 0) {
                 return undefined;
             }
-            const positionCreated = {
-                id: result.rows[0].id,
-                name: result.rows[0].name
-            };
-            return positionCreated;
+            return new department_1.Department(result.rows[0].name, result.rows[0].id);
         }
         catch (error) {
-            throw Error(`Falha ao tentar recuperar um cargo no banco de dados: ${error}`);
+            throw Error(`Falha ao tentar recuperar o departamento no banco de dados: ${error}`);
         }
     });
 }
-//# sourceMappingURL=position-repository.js.map
+//# sourceMappingURL=department-repository.js.map
