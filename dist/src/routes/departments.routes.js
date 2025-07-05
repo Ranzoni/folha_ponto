@@ -10,22 +10,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const message_validation_error_1 = require("../errors/message-validation.error");
-const create_position_1 = require("../services/positions/create-position");
 const security_1 = require("../utils/security");
+const message_validation_error_1 = require("../errors/message-validation.error");
+const create_department_1 = require("../services/departments/create-department");
 const router = (0, express_1.Router)();
-router.post('/position', security_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/department', security_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield (0, create_position_1.executeCreation)(req.body);
+        const result = yield (0, create_department_1.executeCreation)(req.body);
         res.status(201);
-        res.json(response);
+        res.json(result);
     }
     catch (error) {
         if (error instanceof message_validation_error_1.MessageValidationError) {
             res.status(error.statusCode).json(error.toJSON());
         }
-        res.status(500).json({ error: `Erro ao criar o cargo: ${error}` });
+        res.status(500).json({ error: `Erro ao criar o departamento: ${error}` });
     }
 }));
 exports.default = router;
-//# sourceMappingURL=positions.routes.js.map
+//# sourceMappingURL=departments.routes.js.map

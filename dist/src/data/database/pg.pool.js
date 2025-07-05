@@ -16,7 +16,6 @@ const pool = new pg_1.Pool({
     host: config_1.config.dbHost,
     database: config_1.config.dbName,
     password: config_1.config.dbPassword,
-    //   port: Number(process.env.DB_PORT),
     ssl: {
         rejectUnauthorized: config_1.config.dbSsl,
     },
