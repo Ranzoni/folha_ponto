@@ -17,7 +17,7 @@ router.post('/user/authenticate', async (req: Request, res: Response) => {
             res.status(error.statusCode).json(error.toJSON())
         }
 
-        res.status(500).json({ error: `Erro ao autenticar usuário: ${error}` })
+        res.status(500).json({ error: `Erro ao autenticar o usuário: ${error}` })
     }
 })
 
@@ -32,7 +32,7 @@ router.post('/user', verifyToken, async (req: Request, res: Response) => {
             res.status(error.statusCode).json(error.toJSON())
         }
 
-        res.status(500).json({ error: `Erro ao autenticar usuário: ${error}` })
+        res.status(500).json({ error: `Erro ao criar o usuário: ${error}` })
     }
 })
 

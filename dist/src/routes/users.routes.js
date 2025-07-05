@@ -27,7 +27,7 @@ router.post('/user/authenticate', (req, res) => __awaiter(void 0, void 0, void 0
         if (error instanceof message_validation_error_1.MessageValidationError) {
             res.status(error.statusCode).json(error.toJSON());
         }
-        res.status(500).json({ error: `Erro ao autenticar usuário: ${error}` });
+        res.status(500).json({ error: `Erro ao autenticar o usuário: ${error}` });
     }
 }));
 router.post('/user', security_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,7 +40,7 @@ router.post('/user', security_1.verifyToken, (req, res) => __awaiter(void 0, voi
         if (error instanceof message_validation_error_1.MessageValidationError) {
             res.status(error.statusCode).json(error.toJSON());
         }
-        res.status(500).json({ error: `Erro ao autenticar usuário: ${error}` });
+        res.status(500).json({ error: `Erro ao criar o usuário: ${error}` });
     }
 }));
 exports.default = router;

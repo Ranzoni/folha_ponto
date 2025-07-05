@@ -15,5 +15,10 @@ exports.config = {
     emailUser: process.env.EMAIL_USER,
     emailPass: process.env.EMAIL_PASS,
     secretKey: process.env.SECRET_KEY,
+    dbHost: process.env.DB_HOST,
+    dbName: process.env.DB_NAME,
+    dbUser: process.env.DB_USER,
+    dbPassword: process.env.DB_PASSWORD,
+    dbSsl: process.env.DB_SSL === 'true',
 };
 //# sourceMappingURL=config.js.map
