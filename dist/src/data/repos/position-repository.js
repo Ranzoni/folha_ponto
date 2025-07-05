@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.savePosition = savePosition;
 exports.getPositionByName = getPositionByName;
+const position_1 = require("../../services/positions/models/position");
 const pg_pool_1 = __importDefault(require("../database/pg.pool"));
 function savePosition(position) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -22,14 +23,10 @@ function savePosition(position) {
         VALUES ($1)
         RETURNING id
     `;
-        const values = [position.name];
+        const values = [position.nameValue];
         try {
             const result = yield pg_pool_1.default.query(query, values);
-            const positionCreated = {
-                id: result.rows[0].id,
-                name: position.name
-            };
-            return positionCreated;
+            return new position_1.Position(position.nameValue, result.rows[0].id);
         }
         catch (error) {
             throw Error(`Falha ao tentar inserir um cargo no banco de dados: ${error}`);
@@ -48,14 +45,9 @@ function getPositionByName(name) {
         const values = [name];
         try {
             const result = yield pg_pool_1.default.query(query, values);
-            if (result.rows.length === 0) {
+            if (result.rows.length === 0)
                 return undefined;
-            }
-            const positionCreated = {
-                id: result.rows[0].id,
-                name: result.rows[0].name
-            };
-            return positionCreated;
+            return new position_1.Position(result.rows[0].name, result.rows[0].id);
         }
         catch (error) {
             throw Error(`Falha ao tentar recuperar um cargo no banco de dados: ${error}`);

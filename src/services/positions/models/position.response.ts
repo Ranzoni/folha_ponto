@@ -1,4 +1,4 @@
 export interface PositionResponse {
-    id: string
+    id: number
     name: string
 }

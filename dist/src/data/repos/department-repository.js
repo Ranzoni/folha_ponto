@@ -45,9 +45,8 @@ function getDepartmentByName(name) {
         const values = [name];
         try {
             const result = yield pg_pool_1.default.query(query, values);
-            if (result.rows.length === 0) {
+            if (result.rows.length === 0)
                 return undefined;
-            }
             return new department_1.Department(result.rows[0].name, result.rows[0].id);
         }
         catch (error) {

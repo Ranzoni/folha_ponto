@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Department = void 0;
+exports.Position = void 0;
 const message_validation_error_1 = require("../../../errors/message-validation.error");
 const base_class_1 = require("../../utils/base-class");
-class Department extends base_class_1.BaseClass {
+class Position extends base_class_1.BaseClass {
     constructor(name, id = 0) {
         super(id);
         this.name = name;
@@ -14,15 +14,15 @@ class Department extends base_class_1.BaseClass {
     }
     validateData() {
         const validations = [];
-        if (!this.name)
-            validations.push('O nome do departamento não foi informado.');
+        if (!this.name) {
+            validations.push('O nome do cargo não foi informado.');
+        }
         if (this.name.length < 2 || this.name.length > 100) {
-            validations.push('O nome do departamento deve conter de 2 a 100 caracteres');
+            validations.push('O nome do cargo deve conter de 2 a 100 caracteres');
         }
-        if (validations.length > 0) {
+        if (validations.length > 0)
             throw new message_validation_error_1.MessageValidationError(validations);
-        }
     }
 }
-exports.Department = Department;
-//# sourceMappingURL=department.js.map
+exports.Position = Position;
+//# sourceMappingURL=position.js.map

@@ -31,9 +31,8 @@ export async function getDepartmentByName(name: string): Promise<Department | un
 
     try {
         const result = await pool.query(query, values)
-        if (result.rows.length === 0) {
+        if (result.rows.length === 0)
             return undefined
-        }
 
         return new Department(result.rows[0].name, result.rows[0].id)
     } catch (error) {

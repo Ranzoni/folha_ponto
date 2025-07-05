@@ -12,31 +12,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeCreation = executeCreation;
 const position_repository_1 = require("../../data/repos/position-repository");
 const message_validation_error_1 = require("../../errors/message-validation.error");
+const position_1 = require("./models/position");
 function executeCreation(newPosition) {
     return __awaiter(this, void 0, void 0, function* () {
         yield validateCreation(newPosition);
-        return yield (0, position_repository_1.savePosition)(newPosition);
+        const position = new position_1.Position(newPosition.name);
+        const positionCreated = yield (0, position_repository_1.savePosition)(position);
+        if (!positionCreated)
+            throw new Error('Não foi possível recuperar o cargo criado.');
+        const positionResponse = {
+            id: positionCreated.idValue,
+            name: positionCreated.nameValue
+        };
+        return positionResponse;
     });
 }
 function validateCreation(newPosition) {
     return __awaiter(this, void 0, void 0, function* () {
         const validations = [];
-        if (!newPosition) {
+        if (!newPosition)
             validations.push('O cargo não foi informado.');
-        }
-        if (!newPosition.name) {
-            validations.push('O nome do cargo não foi informado.');
-        }
-        if (newPosition.name.length < 2 || newPosition.name.length > 100) {
-            validations.push('O nome do cargo deve conter de 2 a 100 caracteres');
-        }
         const positionAlreadyRegistered = yield (0, position_repository_1.getPositionByName)(newPosition.name);
-        if (!!positionAlreadyRegistered) {
+        if (!!positionAlreadyRegistered)
             validations.push('Já existe um cargo cadastrado com este nome.');
-        }
-        if (validations.length > 0) {
+        if (validations.length > 0)
             throw new message_validation_error_1.MessageValidationError(validations);
-        }
     });
 }
 //# sourceMappingURL=create-position.js.map

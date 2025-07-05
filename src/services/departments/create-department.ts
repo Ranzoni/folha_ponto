@@ -9,11 +9,10 @@ export async function executeCreation(newDepartment: CreateDepartmentRequest): P
 
     const department = new Department(newDepartment.name)
     const departmentCreated = await saveDepartment(department)
-    if (!departmentCreated) {
+    if (!departmentCreated)
         throw new Error('Não foi possível recuperar o departamento criado.')
-    }
 
-    const departmentResponse: DepartmentResponse | undefined = {
+    const departmentResponse: DepartmentResponse = {
         id: departmentCreated.idValue,
         name: departmentCreated.nameValue
     }
@@ -23,24 +22,13 @@ export async function executeCreation(newDepartment: CreateDepartmentRequest): P
 async function validateCreation(newDepartment: CreateDepartmentRequest): Promise<void> {
     const validations: string[] = []
 
-    if (!newDepartment) {
+    if (!newDepartment)
         validations.push('O departamento não foi informado.')
-    }
-
-    if (!newDepartment.name) {
-        validations.push('O nome do departamento não foi informado.')
-    }
-
-    if (newDepartment.name.length < 2 || newDepartment.name.length > 100) {
-        validations.push('O nome do departamento deve conter de 2 a 100 caracteres')
-    }
 
     const departmentAlreadyRegistered = await getDepartmentByName(newDepartment.name)
-    if (!!departmentAlreadyRegistered) {
+    if (!!departmentAlreadyRegistered)
         validations.push('Já existe um departamento cadastrado com este nome.')
-    }
 
-    if (validations.length > 0) {
+    if (validations.length > 0)
         throw new MessageValidationError(validations)
-    }
 }
