@@ -13,11 +13,11 @@ function validateCreation(newPosition: CreatePositionRequest): void {
     const validations: string[] = []
 
     if (!newPosition) {
-        validations.push("O cargo não foi informado.")
+        validations.push('O cargo não foi informado.')
     }
 
     if (!newPosition.name) {
-        validations.push("O nome do cargo não foi informado.")
+        validations.push('O nome do cargo não foi informado.')
     }
 
     if (validations.length > 0) {
