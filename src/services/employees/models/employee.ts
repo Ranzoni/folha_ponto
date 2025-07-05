@@ -1,18 +1,21 @@
 import { MessageValidationError } from "../../../errors/message-validation.error"
 import { Department } from "../../departments/models/department"
 import { Position } from "../../positions/models/position"
+import { User } from "../../users/models/user"
 import { BaseClass } from "../../utils/base-class"
 
 export class Employee extends BaseClass {
     private name: string
     private position: Position
     private department: Department
+    private user: User
 
-    public constructor(name: string, position: Position, department: Department, id: number = 0) {
+    public constructor(name: string, position: Position, department: Department, user: User, id: number = 0) {
         super(id)
         this.name = name
         this.position = position
         this.department = department
+        this.user = user
 
         this.validateData()
     }
@@ -24,7 +27,11 @@ export class Employee extends BaseClass {
     public get departmentId() : number {
         return this.department.idValue
     }
-
+    
+    public get userValue() : User {
+        return this.user
+    }
+    
     protected validateData(): void {
         const validations: string[] = []
 
